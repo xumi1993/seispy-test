@@ -30,7 +30,4 @@ setpar rf.cfg save criterion ""
 setpar rf.cfg save rmsgate ""
 prf rf.cfg
 
-# Hk stacking
-hk hk.cfg
-
 cd ..
