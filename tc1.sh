@@ -13,21 +13,21 @@ prf rf.cfg
 # TRZ, iter, crust, 
 setpar rf.cfg decon decon_method iter
 setpar rf.cfg save criterion crust
-setpar rf.cfg save rmsgate \"\"
+setpar rf.cfg save rmsgate ""
 prf rf.cfg
 
 # LQT, iter, , 0.2
 setpar rf.cfg rotation lqt
 setpar rf.cfg decon decon_method iter
-setpar rf.cfg save criterion \"\"
+setpar rf.cfg save criterion ""
 setpar rf.cfg save rmsgate 0.2
 prf rf.cfg
 
 # LQT, water, ,
 setpar rf.cfg rotation lqt
 setpar rf.cfg decon decon_method water
-setpar rf.cfg save criterion \"\"
-setpar rf.cfg save rmsgate \"\"
+setpar rf.cfg save criterion ""
+setpar rf.cfg save rmsgate ""
 prf rf.cfg
 
 # Hk stacking
