@@ -10,8 +10,8 @@ setpar rf.cfg save criterion crust
 setpar rf.cfg save rmsgate 0.2
 prf rf.cfg
 
-# TRZ, iter, crust, 
-setpar rf.cfg decon decon_method iter
+# TRZ, water, crust, 
+setpar rf.cfg decon decon_method water
 setpar rf.cfg save criterion crust
 setpar rf.cfg save rmsgate ""
 prf rf.cfg
