@@ -128,6 +128,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+ex-ccp.tar.gz
+ex-ccp/
+ex-rfani.tar.gz
+ex-rfani/
 ex-prf.tar.gz
 ex-prf/
 ._*
