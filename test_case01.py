@@ -32,7 +32,7 @@ def init_RF():
 
 def gen_list(para):
     with open(os.path.join(para.rfpath, "CB.NJ2finallist.dat"), 'w+') as fid:
-        files = glob.glob(sorted(join(para.rfpath, '*R.sac')))
+        files = sorted(glob.glob(join(para.rfpath, '*R.sac')))
         for fname in files:
             sac = SACTrace.read(fname)
             evname = basename(fname).split('_')[0]
