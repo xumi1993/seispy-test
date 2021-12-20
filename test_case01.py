@@ -1,9 +1,12 @@
 import os
 from seispy.rf import RF
+from seispy.hk import hksta
+from seispy.hkpara import HKPara
 from subprocess import Popen
 import pytest
-from os.path import exists
-
+from os.path import exists, join, basename
+import glob
+from obspy.io.sac import SACTrace
 
 
 def test_download():
@@ -17,6 +20,7 @@ def test_download():
 def init_RF():
     rf = RF(phase='P', cfg_file='ex-prf/rf.cfg')
     rf.para.datapath = 'ex-prf/Data.CB.NJ2'
+    rf.para.rfpath = 'ex-prf/RFresult/CB.NJ2'
     rf.load_stainfo()
     rf.search_eq()
     rf.match_eq()
@@ -25,18 +29,19 @@ def init_RF():
     rf.cal_phase()
     rf.drop_eq_snr()
     return rf
-    
-def test_sub01():
-    rf = init_RF()
-    rf.para.decon_method = 'iter'
-    rf.para.criterion = 'crust'
-    rf.para.rmsgate = 0.2
-    rf.rotate()
-    rf.trim()
-    rf.deconv()
-    rf.saverf()
 
-def test_sub02():
+def gen_list(para):
+    with open(os.path.join(para.rfpath, "CB.NJ2finallist.dat"), 'w+') as fid:
+        files = glob.glob(sorted(join(para.rfpath, '*R.sac')))
+        for fname in files:
+            sac = SACTrace.read(fname)
+            evname = basename(fname).split('_')[0]
+            fid.write('%s %s %6.3f %6.3f %6.3f %6.3f %6.3f %8.7f %6.3f %6.3f\n' % (
+                evname, 'P', sac.evla, sac.evlo, sac.evdp, sac.gcarc, sac.baz, sac.user0, sac.mag, sac.user1
+            ))
+
+
+def test_sub01():
     rf = init_RF()
     rf.para.decon_method = 'water'
     rf.para.criterion = 'crust'
@@ -46,7 +51,8 @@ def test_sub02():
     rf.deconv()
     rf.saverf()
 
-def test_sub03():
+
+def test_sub02():
     rf = init_RF()
     rf.para.comp = 'lqt'
     rf.para.decon_method = 'water'
@@ -56,3 +62,26 @@ def test_sub03():
     rf.trim()
     rf.deconv()
     rf.saverf()
+
+
+def test_sub03():
+    rf = init_RF()
+    rf.para.decon_method = 'iter'
+    rf.para.criterion = 'crust'
+    rf.para.rmsgate = 0.2
+    rf.rotate()
+    rf.trim()
+    rf.deconv()
+    rf.saverf()
+    gen_list(rf.para)
+
+
+def test_sub04():
+    hkpara = HKPara()
+    hkpara.rfpath = 'ex-prf/RFresult/CB.NJ2'
+    hkpara.hkpath = './'
+    hksta(hkpara, isplot=True, isdisplay=True)
+
+
+if __name__ == '__main__':
+    test_sub01()
