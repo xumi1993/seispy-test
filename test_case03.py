@@ -40,8 +40,7 @@ def test_sub03():
     ccp.initial_profile()
     ccp.stack()
     ccp.save_stack_data(format='dat')
-    os.remove(ccp.cpara.stack_sta_list)
-    os.remove(ccp.cpara.stackfile)
+    # os.remove(ccp.cpara.stackfile)
 
 if __name__ == '__main__':
-    test_sub02()
+    test_sub03()
